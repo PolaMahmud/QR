@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Generator</title>
+    <script src="https://cdn.jsdelivr.net/npm/qr-code-styling/lib/qr-code-styling.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+        #qrcode {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h2>QR Code Generator</h2>
+    <label for="url">Enter Website URL:</label>
+    <input type="text" id="url" placeholder="https://yourwebsite.com" value="https://yourwebsite.com">
+    <br><br>
+    <label for="color">Choose QR Code Color:</label>
+    <input type="color" id="color" value="#000000">
+    <br><br>
+    <button onclick="generateQR()">Generate QR Code</button>
+    <br><br>
+    <div id="qrcode"></div>
+    <br>
+    <button onclick="downloadQR('png')">Download as PNG</button>
+    <button onclick="downloadQR('svg')">Download as SVG</button>
+    
+    <script>
+        let qrCode;
+        function generateQR() {
+            let url = document.getElementById("url").value;
+            let color = document.getElementById("color").value;
+            document.getElementById("qrcode").innerHTML = "";
+            qrCode = new QRCodeStyling({
+                width: 200,
+                height: 200,
+                data: url,
+                dotsOptions: {
+                    color: color,
+                    type: "extra-rounded"
+                },
+                backgroundOptions: {
+                    color: "white"
+                }
+            });
+            qrCode.append(document.getElementById("qrcode"));
+        }
+        
+        function downloadQR(format) {
+            qrCode.download({ name: "qr_code", extension: format });
+        }
+    </script>
+</body>
+</html>
