@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="slate" data-mode="auto">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QR · short links</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgcng9IjIwIiBmaWxsPSIjZmZmIi8+PGcgZmlsbD0iIzE0MTQxMyI+PHBhdGggZD0iTTEwIDEwaDI4djI4SDEwek0xNSAxNXYxOGgxOFYxNXoiIGZpbGwtcnVsZT0iZXZlbm9kZCIvPjxyZWN0IHg9IjE5IiB5PSIxOSIgd2lkdGg9IjEwIiBoZWlnaHQ9IjEwIi8+PHBhdGggZD0iTTYyIDEwaDI4djI4SDYyek02NyAxNXYxOGgxOFYxNXoiIGZpbGwtcnVsZT0iZXZlbm9kZCIvPjxyZWN0IHg9IjcxIiB5PSIxOSIgd2lkdGg9IjEwIiBoZWlnaHQ9IjEwIi8+PHBhdGggZD0iTTEwIDYyaDI4djI4SDEwek0xNSA2N3YxOGgxOFY2N3oiIGZpbGwtcnVsZT0iZXZlbm9kZCIvPjxyZWN0IHg9IjE5IiB5PSI3MSIgd2lkdGg9IjEwIiBoZWlnaHQ9IjEwIi8+PHJlY3QgeD0iNDYiIHk9IjEwIiB3aWR0aD0iOCIgaGVpZ2h0PSI4Ii8+PHJlY3QgeD0iNDYiIHk9IjI2IiB3aWR0aD0iOCIgaGVpZ2h0PSI4Ii8+PHJlY3QgeD0iNDYiIHk9IjQ2IiB3aWR0aD0iOCIgaGVpZ2h0PSI4Ii8+PHJlY3QgeD0iNjIiIHk9IjQ2IiB3aWR0aD0iOCIgaGVpZ2h0PSI4Ii8+PHJlY3QgeD0iODIiIHk9IjQ2IiB3aWR0aD0iOCIgaGVpZ2h0PSI4Ii8+PHJlY3QgeD0iNjIiIHk9IjYyIiB3aWR0aD0iOCIgaGVpZ2h0PSI4Ii8+PHJlY3QgeD0iNzgiIHk9IjYyIiB3aWR0aD0iMTIiIGhlaWdodD0iOCIgcng9IjQiLz48cmVjdCB4PSI2MiIgeT0iNzgiIHdpZHRoPSI4IiBoZWlnaHQ9IjgiLz48cmVjdCB4PSI3OCIgeT0iNzgiIHdpZHRoPSI4IiBoZWlnaHQ9IjgiLz48cmVjdCB4PSIyNiIgeT0iNDYiIHdpZHRoPSI4IiBoZWlnaHQ9IjgiLz48cmVjdCB4PSIxMCIgeT0iNDYiIHdpZHRoPSI4IiBoZWlnaHQ9IjgiLz48L2c+PC9zdmc+Cg==">
+<script>try{document.documentElement.setAttribute('data-mode',localStorage.getItem('qr_mode')||'auto');}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=DM+Serif+Display&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+<style>
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+/* ═══════ SLATE PALETTE ═══════ */
+:root{
+  --accent:#4A5568; --accent-lt:#EDF0F4; --accent-hv:#2D3748;
+  --sec:#2B6CB0; --sec-lt:#EBF4FF;
+  --tri:#7B6B3A; --tri-lt:#F9F5EA;
+  --hi:#9B4040; --hi-lt:#FAECEC;
+  --accent-dk:#A0AEC0; --accent-lt-dk:#1A1E28; --accent-hv-dk:#CBD5E0;
+  --sec-dk:#63B3ED; --sec-lt-dk:#152033;
+  --tri-dk:#D4B86A; --tri-lt-dk:#282010;
+  --hi-dk:#F08080; --hi-lt-dk:#2A1414;
+  --bg:#FAF8F5; --bg-card:#FFFFFF; --bg-hov:#F3F0EB;
+  --txt:#1A1A18; --txt2:#6B6A65; --txt3:#9C9B95;
+  --brd:#E8E5DE;
+  --sh-sm:0 1px 2px rgba(0,0,0,.04); --sh-md:0 4px 16px rgba(0,0,0,.06);
+  --r:12px; --rl:16px; --on-accent:#FFFFFF;
+  --mono:'DM Mono',ui-monospace,SFMono-Regular,monospace;
+}
+[data-mode="dark"]{
+  --bg:#141413; --bg-card:#1E1E1C; --bg-hov:#2A2A27;
+  --txt:#EDECEA; --txt2:#A3A29C; --txt3:#6B6A65; --brd:#2E2E2B;
+  --sh-sm:0 1px 2px rgba(0,0,0,.2); --sh-md:0 4px 16px rgba(0,0,0,.3);
+  --accent:var(--accent-dk); --accent-lt:var(--accent-lt-dk); --accent-hv:var(--accent-hv-dk);
+  --sec:var(--sec-dk); --sec-lt:var(--sec-lt-dk); --tri:var(--tri-dk); --tri-lt:var(--tri-lt-dk);
+  --hi:var(--hi-dk); --hi-lt:var(--hi-lt-dk); --on-accent:#141413;
+}
+@media (prefers-color-scheme: dark){
+  [data-mode="auto"]{
+    --bg:#141413; --bg-card:#1E1E1C; --bg-hov:#2A2A27;
+    --txt:#EDECEA; --txt2:#A3A29C; --txt3:#6B6A65; --brd:#2E2E2B;
+    --sh-sm:0 1px 2px rgba(0,0,0,.2); --sh-md:0 4px 16px rgba(0,0,0,.3);
+    --accent:var(--accent-dk); --accent-lt:var(--accent-lt-dk); --accent-hv:var(--accent-hv-dk);
+    --sec:var(--sec-dk); --sec-lt:var(--sec-lt-dk); --tri:var(--tri-dk); --tri-lt:var(--tri-lt-dk);
+    --hi:var(--hi-dk); --hi-lt:var(--hi-lt-dk); --on-accent:#141413;
+  }
+}
+
+body{ font-family:'DM Sans',system-ui,sans-serif; background:var(--bg); color:var(--txt); line-height:1.6; min-height:100vh; transition:background .3s,color .3s; }
+
+.mode-toggle{ position:fixed; top:1rem; right:1rem; z-index:100; display:flex; gap:0; background:var(--bg-card); border:1px solid var(--brd); border-radius:100px; padding:3px; box-shadow:var(--sh-md); }
+.mode-toggle button{ all:unset; width:34px; height:34px; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; transition:background .2s; color:var(--txt3); }
+.mode-toggle button:hover{ background:var(--bg-hov); }
+.mode-toggle button.active{ background:var(--accent-lt); color:var(--accent); }
+.mode-toggle button svg{ width:18px; height:18px; }
+
+.hero{ text-align:center; padding:4rem 1.5rem 2rem; position:relative; overflow:hidden; }
+.hero::before{ content:''; position:absolute; inset:0; pointer-events:none; opacity:.6;
+  background:radial-gradient(ellipse 60% 50% at 20% 40%, var(--accent-lt) 0%, transparent 70%),
+             radial-gradient(ellipse 50% 60% at 80% 30%, var(--sec-lt) 0%, transparent 70%); }
+.hero-badge{ display:inline-block; font-size:.75rem; font-weight:600; letter-spacing:.08em; text-transform:uppercase; color:var(--accent); background:var(--accent-lt); border:1px solid var(--accent); border-radius:100px; padding:.35rem 1rem; margin-bottom:1.25rem; position:relative; }
+.hero h1{ font-family:'DM Serif Display',Georgia,serif; font-size:clamp(2rem,5vw,3.2rem); font-weight:400; line-height:1.15; letter-spacing:-.02em; margin-bottom:.75rem; position:relative; }
+.hero p{ font-size:1.05rem; color:var(--txt2); max-width:520px; margin:0 auto; position:relative; }
+
+.container{ max-width:760px; margin:0 auto; padding:0 1.5rem 4rem; }
+.section{ margin-bottom:1.75rem; }
+.section-header{ display:flex; align-items:center; gap:.6rem; margin-bottom:1rem; }
+.section-icon{ width:36px; height:36px; border-radius:10px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.section-icon svg{ width:18px; height:18px; }
+.section-icon.gen{ background:var(--accent-lt); color:var(--accent); }
+.section-icon.lnk{ background:var(--tri-lt); color:var(--tri); }
+.section-header h2{ font-size:1.15rem; font-weight:600; letter-spacing:-.01em; }
+
+.card{ background:var(--bg-card); border:1px solid var(--brd); border-radius:var(--rl); box-shadow:var(--sh-sm); padding:1.5rem; }
+
+label,.field-label{ display:block; font-size:.8rem; font-weight:600; color:var(--txt2); margin:1.1rem 0 .45rem; }
+label:first-of-type,.field-label:first-child{ margin-top:0; }
+input[type=text],input[type=url],input[type=password]{ width:100%; background:var(--bg); border:1px solid var(--brd); color:var(--txt); font-family:inherit; font-size:.95rem; padding:.7rem .85rem; border-radius:var(--r); outline:none; transition:all .15s; }
+input::placeholder{ color:var(--txt3); }
+input:focus{ border-color:var(--accent); box-shadow:0 0 0 3px var(--accent-lt); }
+.row{ display:flex; gap:.7rem; flex-wrap:wrap; }
+.row>*{ flex:1; min-width:130px; }
+
+/* style picker */
+.style-row{ display:flex; gap:.55rem; overflow-x:auto; padding:.15rem .1rem .55rem; }
+.style-card{ all:unset; flex:0 0 auto; width:64px; height:64px; border:1px solid var(--brd); border-radius:var(--r); background:var(--bg); padding:6px; cursor:pointer; transition:all .15s; display:flex; }
+.style-card:hover{ border-color:var(--accent); }
+.style-card.selected{ border-color:var(--sec); box-shadow:0 0 0 3px var(--sec-lt), 0 0 0 1px var(--sec); }
+.style-card canvas{ width:100%; height:100%; image-rendering:pixelated; border-radius:3px; }
+
+/* code color field (matches reference) */
+.colorfield{ position:relative; display:flex; align-items:center; gap:.6rem; border:1px solid var(--brd); border-radius:var(--r); padding:.7rem .8rem; margin-top:1.4rem; background:var(--bg); }
+.colorfield:focus-within{ border-color:var(--accent); box-shadow:0 0 0 3px var(--accent-lt); }
+.cf-label{ position:absolute; top:-.58rem; left:.65rem; background:var(--bg-card); padding:0 .35rem; font-size:.72rem; font-weight:600; color:var(--txt2); }
+#hex{ all:unset; flex:1; font-family:var(--mono); font-size:1rem; color:var(--txt); letter-spacing:.02em; }
+.cf-swatch{ width:34px; height:34px; flex:0 0 auto; padding:0; border:1px solid var(--brd); border-radius:8px; background:none; cursor:pointer; }
+
+.btn{ all:unset; box-sizing:border-box; display:inline-flex; align-items:center; justify-content:center; gap:.4rem; width:100%; margin-top:1.25rem; padding:.85rem 1.1rem; background:var(--accent); color:var(--on-accent); font-weight:600; font-size:.95rem; border-radius:var(--r); cursor:pointer; transition:all .15s; }
+.btn:hover{ background:var(--accent-hv); } .btn:active{ transform:translateY(1px); }
+.btn[disabled]{ opacity:.55; cursor:not-allowed; }
+.btn.ghost{ background:var(--bg-card); color:var(--txt); border:1px solid var(--brd); }
+.btn.ghost:hover{ background:var(--bg-hov); border-color:var(--accent); }
+.btn.small{ width:auto; margin:0; padding:.5rem .9rem; font-size:.85rem; }
+
+.autonote{ display:flex; gap:.6rem; align-items:flex-start; margin-top:1rem; padding:.7rem .85rem; background:var(--accent-lt); border:1px solid var(--brd); border-radius:var(--r); font-size:.82rem; color:var(--txt2); }
+.autonote b{ color:var(--txt); }
+.autonote code,.hint code,.foot code{ font-family:var(--mono); font-size:.92em; }
+.hint{ font-size:.8rem; color:var(--txt2); margin-top:.5rem; line-height:1.55; }
+.hint a{ color:var(--sec); font-weight:500; }
+.status{ font-size:.83rem; margin-top:1rem; min-height:1.2em; color:var(--txt2); }
+.status.ok{ color:var(--sec); } .status.err{ color:var(--hi); } .status.warn{ color:var(--tri); }
+
+#result{ display:none; margin-top:1.25rem; text-align:center; }
+#result.show{ display:block; }
+.qrbox{ display:inline-block; padding:14px; background:#fff; border-radius:var(--r); margin:.25rem auto 1.1rem; box-shadow:var(--sh-md); }
+.qrbox canvas{ display:block; width:230px; height:230px; }
+.shorturl{ display:flex; align-items:center; gap:.6rem; justify-content:center; flex-wrap:wrap; background:var(--bg-hov); border:1px solid var(--brd); border-radius:var(--r); padding:.7rem .85rem; margin-bottom:.5rem; }
+.shorturl code{ color:var(--accent); font-family:var(--mono); font-size:.95rem; word-break:break-all; }
+.meta{ font-size:.78rem; color:var(--txt3); word-break:break-all; font-family:var(--mono); }
+.downloads{ display:flex; gap:.55rem; justify-content:center; margin-top:1rem; flex-wrap:wrap; }
+
+details.cfg{ background:var(--bg-card); border:1px solid var(--brd); border-radius:var(--rl); box-shadow:var(--sh-sm); padding:0 1.5rem; }
+details.cfg summary{ cursor:pointer; padding:1.05rem 0; font-size:.92rem; font-weight:600; color:var(--txt); list-style:none; display:flex; justify-content:space-between; align-items:center; }
+details.cfg summary::-webkit-details-marker{ display:none; }
+details.cfg summary #tokState{ font-size:.78rem; font-weight:600; color:var(--txt3); }
+details.cfg[open] summary{ border-bottom:1px solid var(--brd); margin-bottom:1.1rem; }
+details.cfg .body{ padding-bottom:1.4rem; }
+
+.q-table{ width:100%; border-collapse:separate; border-spacing:0; background:var(--bg-card); border:1px solid var(--brd); border-radius:var(--rl); overflow:hidden; box-shadow:var(--sh-sm); }
+.q-table thead th{ text-align:left; font-size:.72rem; font-weight:600; letter-spacing:.04em; text-transform:uppercase; color:var(--txt3); padding:.75rem 1rem; background:var(--bg-hov); border-bottom:1px solid var(--brd); }
+.q-table tbody tr{ transition:background .1s; }
+.q-table tbody tr:hover{ background:var(--bg-hov); }
+.q-table tbody td{ padding:.65rem 1rem; font-size:.85rem; border-bottom:1px solid var(--brd); vertical-align:middle; }
+.q-table tbody tr:last-child td{ border-bottom:none; }
+.q-table .u{ color:var(--txt2); font-family:var(--mono); font-size:.78rem; word-break:break-all; display:inline-block; max-width:30ch; }
+.q-table a.short{ color:var(--sec); font-family:var(--mono); font-weight:500; text-decoration:none; }
+.q-table a.short:hover{ text-decoration:underline; }
+.tact{ display:flex; gap:.35rem; justify-content:flex-end; flex-wrap:wrap; }
+.ic{ all:unset; box-sizing:border-box; display:inline-flex; align-items:center; gap:.25rem; padding:.28rem .6rem; border:1px solid var(--brd); border-radius:100px; background:var(--bg-card); color:var(--txt2); font-size:.74rem; font-weight:500; cursor:pointer; transition:all .15s; }
+.ic:hover{ border-color:var(--accent); color:var(--accent); }
+.ic.dl:hover{ border-color:var(--sec); color:var(--sec); }
+.ic.del:hover{ border-color:var(--hi); color:var(--hi); }
+.empty{ color:var(--txt3); font-size:.85rem; padding:.5rem 0; }
+.foot{ text-align:center; padding:1.5rem; color:var(--txt3); font-size:.8rem; line-height:1.7; border-top:1px solid var(--brd); }
+
+@media (max-width:600px){
+  .hero{ padding:3rem 1.25rem 1.5rem; } .container{ padding:0 1.1rem 3rem; }
+  .card,details.cfg{ padding:1.15rem; } details.cfg{ padding:0 1.15rem; }
+  .mode-toggle{ top:.65rem; right:.65rem; } .mode-toggle button{ width:30px; height:30px; }
+  .q-table .u{ max-width:14ch; }
+}
+</style>
+</head>
+<body>
+
+<div class="mode-toggle" role="group" aria-label="Color mode">
+  <button data-mode="light" title="Light" aria-label="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></button>
+  <button data-mode="auto" title="System" aria-label="System"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></button>
+  <button data-mode="dark" title="Dark" aria-label="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z"/></svg></button>
+</div>
+
+<div class="hero">
+  <a class="hero-badge" href="https://polamahmud.github.io/More/" style="text-decoration:none">Find More</a>
+  <h1>Quick Response Tools</h1>
+</div>
+
+<div class="container">
+
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon gen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3M21 21v.01M21 14v.01M14 21v.01"/></svg></div>
+      <h2>Generate</h2>
+    </div>
+    <div class="card">
+      <label for="url">URL to encode</label>
+      <input id="url" type="url" placeholder="https://example.com/some/very/long/path?with=params" autocomplete="off">
+
+      <label for="slug">Custom short URL <span style="color:var(--txt3);font-weight:500">(optional)</span></label>
+      <input id="slug" type="text" placeholder="e.g. promo  →  /QR/promo" autocomplete="off">
+
+      <span class="field-label">QR style</span>
+      <div class="style-row" id="styleRow">
+        <button class="style-card" data-style="square"   title="Sharp squares"><canvas></canvas></button>
+        <button class="style-card" data-style="rounded"  title="Rounded squares"><canvas></canvas></button>
+        <button class="style-card" data-style="dots"     title="Dots"><canvas></canvas></button>
+        <button class="style-card" data-style="blob"     title="Fluid blobs"><canvas></canvas></button>
+        <button class="style-card" data-style="capsule"  title="Capsules + dots"><canvas></canvas></button>
+        <button class="style-card" data-style="fragment" title="Fragmented pixels"><canvas></canvas></button>
+      </div>
+
+      <div class="colorfield">
+        <span class="cf-label">Code Color</span>
+        <input id="hex" type="text" spellcheck="false" value="#000000" aria-label="Hex color">
+        <input id="color" type="color" value="#000000" class="cf-swatch" aria-label="Pick code color">
+      </div>
+
+      <div class="colorfield">
+        <span class="cf-label">Background Color</span>
+        <input id="hexBg" type="text" spellcheck="false" value="#FFFFFF" aria-label="Background hex color">
+        <input id="colorBg" type="color" value="#FFFFFF" class="cf-swatch" aria-label="Pick background color">
+      </div>
+
+      <button class="btn" id="go">Generate QR code</button>
+
+      <div class="autonote"><span>↯</span><span id="autonoteText"></span></div>
+      <div class="status" id="status"></div>
+
+      <div id="result">
+        <div class="qrbox"><canvas id="canvas"></canvas></div>
+        <div class="shorturl"><code id="outUrl"></code><button class="ic" id="copyUrl">copy</button></div>
+        <div class="meta" id="outTarget"></div>
+        <div class="downloads">
+          <button class="btn ghost small" id="dlPng">Download PNG</button>
+          <button class="btn ghost small" id="dlSvg">Download SVG</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <details class="cfg">
+    <summary><span>⚙ &nbsp;Repository &amp; token settings</span><span id="tokState">not set</span></summary>
+    <div class="body">
+      <p class="hint">Shortening &amp; custom slugs commit entries to your repo, which needs a GitHub token. Use a <b>fine-grained personal access token</b> scoped to <b>only this repo</b> with <b>Contents: Read &amp; write</b>. It is stored only in this browser and never committed. <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">Create one →</a></p>
+      <div class="row" style="margin-top:.6rem">
+        <div><label for="owner">Owner</label><input id="owner" type="text" placeholder="polamahmud"></div>
+        <div><label for="repo">Repo</label><input id="repo" type="text" placeholder="QR"></div>
+        <div><label for="branch">Branch</label><input id="branch" type="text" placeholder="main"></div>
+      </div>
+      <label for="token">Token (github_pat_…)</label>
+      <input id="token" type="password" placeholder="paste token — stays in your browser" autocomplete="off">
+      <button class="btn ghost" id="saveCfg">Save settings</button>
+    </div>
+  </details>
+
+  <div class="section" style="margin-top:1.75rem">
+    <div class="section-header">
+      <div class="section-icon lnk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 007.5.5l3-3a5 5 0 00-7-7l-1.5 1.5"/><path d="M14 11a5 5 0 00-7.5-.5l-3 3a5 5 0 007 7l1.5-1.5"/></svg></div>
+      <h2>Existing short links</h2>
+    </div>
+    <div id="linksWrap"><p class="empty">Loading…</p></div>
+  </div>
+
+</div>
+
+<script>
+/* ============================================================
+   CONFIG
+   ============================================================ */
+const DEFAULTS = { owner: "polamahmud", repo: "QR", branch: "main" };
+const SITE_BASE = "/QR/";
+const DATA_FILE = "links.json";
+const ALPHABET  = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@~$&";
+const BASE = ALPHABET.length;
+const RESERVED = new Set(["index","404","links","links.json","",".",".."]);
+
+/* ---------- bijective base-66 + lowest-free allocation ---------- */
+function encodeIndex(n){ let s=""; while(n>0){ n-=1; s=ALPHABET[n%BASE]+s; n=Math.floor(n/BASE);} return s; }
+function allocateCode(links){ let i=1,code; do{ code=encodeIndex(i); i++; } while(code in links); return code; }
+
+/* ---------- color mode toggle (order: Light · System · Dark) ---------- */
+const modeBtns = document.querySelectorAll('.mode-toggle button');
+function applyMode(m){
+  document.documentElement.setAttribute('data-mode', m);
+  try{ localStorage.setItem('qr_mode', m); }catch(e){}
+  modeBtns.forEach(b=> b.classList.toggle('active', b.dataset.mode===m));
+}
+modeBtns.forEach(b=> b.onclick = ()=> applyMode(b.dataset.mode));
+applyMode((function(){ try{return localStorage.getItem('qr_mode')}catch(e){} })() || 'auto');
+
+/* ============================================================
+   STYLED QR RENDERER  (matrix -> shape ops -> canvas / svg)
+   ============================================================ */
+function ecLevel(style){ return (style==="dots"||style==="fragment") ? "H" : "M"; }
+function buildMatrix(text, style){
+  const qr = qrcode(0, ecLevel(style)); qr.addData(text); qr.make();
+  const n = qr.getModuleCount(), m = [];
+  for(let r=0;r<n;r++){ m[r]=[]; for(let c=0;c<n;c++) m[r][c]=qr.isDark(r,c); }
+  return m;
+}
+function isFinder(r,c,n){ return (r<7&&c<7) || (r<7&&c>=n-7) || (r>=n-7&&c<7); }
+
+function buildOps(matrix, style, color, bg){
+  const n = matrix.length, off = 4, ops = [];
+  const dataDark = (r,c)=> r>=0&&c>=0&&r<n&&c<n && matrix[r][c] && !isFinder(r,c,n);
+
+  if(style === "capsule"){
+    for(let r=0;r<n;r++){ let c=0;
+      while(c<n){
+        if(dataDark(r,c)){ const s=c; while(c<n && dataDark(r,c)) c++; const len=c-s;
+          if(len===1) ops.push({t:'circle', cx:off+s+0.5, cy:off+r+0.5, rad:0.45, color});
+          else ops.push({t:'rect', x:off+s+0.06, y:off+r+0.06, w:len-0.12, h:0.88, r:[0.44,0.44,0.44,0.44], color});
+        } else c++;
+      }
+    }
+  } else {
+    for(let r=0;r<n;r++) for(let c=0;c<n;c++){
+      if(!dataDark(r,c)) continue;
+      if(style==="dots")        ops.push({t:'circle', cx:off+c+0.5, cy:off+r+0.5, rad:0.45, color});
+      else if(style==="fragment"){ const sz=0.6,m=(1-sz)/2; ops.push({t:'rect', x:off+c+m, y:off+r+m, w:sz, h:sz, r:[0.12,0.12,0.12,0.12], color}); }
+      else if(style==="rounded") ops.push({t:'rect', x:off+c+0.06, y:off+r+0.06, w:0.88, h:0.88, r:[0.3,0.3,0.3,0.3], color});
+      else if(style==="blob"){ const R=0.5,
+        up=dataDark(r-1,c),dn=dataDark(r+1,c),lf=dataDark(r,c-1),rt=dataDark(r,c+1);
+        ops.push({t:'rect', x:off+c, y:off+r, w:1, h:1, r:[(!up&&!lf)?R:0,(!up&&!rt)?R:0,(!dn&&!rt)?R:0,(!dn&&!lf)?R:0], color});
+      }
+      else ops.push({t:'rect', x:off+c, y:off+r, w:1, h:1, r:[0,0,0,0], color}); // square
+    }
+  }
+  // finder "eyes" — kept clean for scannability
+  const RX = {square:0,fragment:0.18,rounded:1.4,dots:2.2,blob:2.2,capsule:2.2}[style];
+  const RI = {square:0,fragment:0.12,rounded:0.55,dots:1.4,blob:1.4,capsule:1.4}[style];
+  for(const [er,ec] of [[0,0],[0,n-7],[n-7,0]]){
+    ops.push({t:'rect', x:off+ec,   y:off+er,   w:7, h:7, r:[RX,RX,RX,RX], color});
+    ops.push({t:'rect', x:off+ec+1, y:off+er+1, w:5, h:5, r:[Math.max(0,RX-.7),Math.max(0,RX-.7),Math.max(0,RX-.7),Math.max(0,RX-.7)], color:bg});
+    ops.push({t:'rect', x:off+ec+2, y:off+er+2, w:3, h:3, r:[RI,RI,RI,RI], color});
+  }
+  return { dim:n+off*2, ops, bg };
+}
+function clampR(r,w,h){ return Math.max(0, Math.min(r, Math.min(w,h)/2)); }
+function rrPathCanvas(ctx,x,y,w,h,rad){
+  const [tl,tr,br,bl]=rad.map(v=>clampR(v,w,h));
+  ctx.beginPath();
+  ctx.moveTo(x+tl,y); ctx.lineTo(x+w-tr,y); if(tr) ctx.arcTo(x+w,y,x+w,y+tr,tr);
+  ctx.lineTo(x+w,y+h-br); if(br) ctx.arcTo(x+w,y+h,x+w-br,y+h,br);
+  ctx.lineTo(x+bl,y+h); if(bl) ctx.arcTo(x,y+h,x,y+h-bl,bl);
+  ctx.lineTo(x,y+tl); if(tl) ctx.arcTo(x,y,x+tl,y,tl); ctx.closePath();
+}
+function rrPathD(x,y,w,h,rad){
+  const [tl,tr,br,bl]=rad.map(v=>clampR(v,w,h));
+  return `M${x+tl},${y}H${x+w-tr}`+(tr?`A${tr},${tr} 0 0 1 ${x+w},${y+tr}`:``)+
+         `V${y+h-br}`+(br?`A${br},${br} 0 0 1 ${x+w-br},${y+h}`:``)+
+         `H${x+bl}`+(bl?`A${bl},${bl} 0 0 1 ${x},${y+h-bl}`:``)+
+         `V${y+tl}`+(tl?`A${tl},${tl} 0 0 1 ${x+tl},${y}`:``)+`Z`;
+}
+function renderCanvas(canvas, geo, cellPx){
+  const px=Math.max(1,Math.floor(cellPx)); canvas.width=geo.dim*px; canvas.height=geo.dim*px;
+  const ctx=canvas.getContext('2d'); ctx.fillStyle=geo.bg||'#ffffff'; ctx.fillRect(0,0,canvas.width,canvas.height);
+  for(const o of geo.ops){ ctx.fillStyle=o.color||'#000';
+    if(o.t==='circle'){ ctx.beginPath(); ctx.arc(o.cx*px,o.cy*px,o.rad*px,0,Math.PI*2); ctx.fill(); }
+    else { rrPathCanvas(ctx,o.x*px,o.y*px,o.w*px,o.h*px,o.r.map(v=>v*px)); ctx.fill(); }
+  }
+}
+function renderSvg(geo){
+  let s=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${geo.dim} ${geo.dim}" shape-rendering="geometricPrecision"><rect width="${geo.dim}" height="${geo.dim}" fill="${geo.bg||'#ffffff'}"/>`;
+  for(const o of geo.ops){ const col=o.color||'#000';
+    s += (o.t==='circle') ? `<circle cx="${o.cx}" cy="${o.cy}" r="${o.rad}" fill="${col}"/>`
+                          : `<path d="${rrPathD(o.x,o.y,o.w,o.h,o.r)}" fill="${col}"/>`;
+  }
+  return s+`</svg>`;
+}
+
+/* ---------- style + color state ---------- */
+function getStyle(){ return localStorage.getItem('qr_style') || 'square'; }
+function setStyle(s){ localStorage.setItem('qr_style', s); document.querySelectorAll('.style-card').forEach(c=>c.classList.toggle('selected', c.dataset.style===s)); }
+function getColor(){ return (localStorage.getItem('qr_color') || '#000000'); }
+function getBg(){ return (localStorage.getItem('qr_bg') || '#FFFFFF'); }
+function geoFor(text){ const st=getStyle(); return buildOps(buildMatrix(text,st), st, getColor(), getBg()); }
+
+let lastText = null;
+function render(text){ lastText=text; const geo=geoFor(text); renderCanvas(document.getElementById('canvas'), geo, Math.max(2, Math.floor(460/geo.dim))); }
+function renderPreviews(){
+  const sample = (document.getElementById('url').value.trim() || "https://polamahmud.github.io/QR/AB");
+  document.querySelectorAll('.style-card').forEach(card=>{
+    const st=card.dataset.style, geo=buildOps(buildMatrix(sample,st), st, getColor(), getBg()), cv=card.querySelector('canvas');
+    renderCanvas(cv, geo, Math.max(1, Math.floor(140/geo.dim)));
+  });
+}
+
+/* ---------- config persistence ---------- */
+const cfg = {
+  get owner(){ return localStorage.getItem("qr_owner")||DEFAULTS.owner; },
+  get repo(){  return localStorage.getItem("qr_repo")||DEFAULTS.repo; },
+  get branch(){return localStorage.getItem("qr_branch")||DEFAULTS.branch; },
+  get token(){ return localStorage.getItem("qr_token")||""; }
+};
+function loadCfgUI(){
+  owner.value=cfg.owner; repo.value=cfg.repo; branch.value=cfg.branch; token.value=cfg.token;
+  tokState.textContent = cfg.token ? "token set ✓" : "not set";
+  tokState.style.color = cfg.token ? "var(--sec)" : "var(--txt3)";
+  autonoteText.innerHTML = cfg.token
+    ? '<b>Auto-shorten is on.</b> Leave the slug blank for the shortest free code, or type one for a custom <code>/QR/&lt;slug&gt;</code>. A URL already shortened is reused — no duplicate entry.'
+    : '<b>Auto-shorten is off.</b> No token saved — the QR encodes your URL exactly as typed. Add a token to shorten or use custom slugs.';
+}
+function saveCfg(){
+  localStorage.setItem("qr_owner",  owner.value.trim()||DEFAULTS.owner);
+  localStorage.setItem("qr_repo",   repo.value.trim()||DEFAULTS.repo);
+  localStorage.setItem("qr_branch", branch.value.trim()||DEFAULTS.branch);
+  localStorage.setItem("qr_token",  token.value.trim());
+  loadCfgUI(); setStatus("Settings saved.","ok"); loadLinks();
+}
+
+/* ---------- GitHub contents API ---------- */
+function ghHeaders(){ return { "Accept":"application/vnd.github+json","Authorization":"Bearer "+cfg.token,"X-GitHub-Api-Version":"2022-11-28" }; }
+function b64encode(s){ return btoa(unescape(encodeURIComponent(s))); }
+function b64decode(s){ return decodeURIComponent(escape(atob(s.replace(/\n/g,"")))); }
+async function getDB(){
+  const u=`https://api.github.com/repos/${cfg.owner}/${cfg.repo}/contents/${DATA_FILE}?ref=${cfg.branch}`;
+  const res=await fetch(u,{headers:ghHeaders(),cache:"no-store"});
+  if(res.status===404) return { data:{links:{}}, sha:null };
+  if(!res.ok) throw new Error("GitHub read failed ("+res.status+"). Check token & repo settings.");
+  const j=await res.json(); let p; try{ p=JSON.parse(b64decode(j.content)); }catch(e){ p={links:{}}; }
+  if(!p.links) p.links={}; return { data:p, sha:j.sha };
+}
+async function putDB(data, sha, message){
+  const u=`https://api.github.com/repos/${cfg.owner}/${cfg.repo}/contents/${DATA_FILE}`;
+  const body={ message, content:b64encode(JSON.stringify(data,null,2)), branch:cfg.branch }; if(sha) body.sha=sha;
+  const res=await fetch(u,{method:"PUT",headers:ghHeaders(),body:JSON.stringify(body)});
+  if(!res.ok){ const t=await res.text(); throw new Error("GitHub write failed ("+res.status+"). "+t.slice(0,140)); }
+  return res.json();
+}
+
+/* ---------- slug validation ---------- */
+function validateSlug(s, links){
+  if(!/^[A-Za-z0-9._~@$&-]+$/.test(s)) return "Custom slug has invalid characters (allowed: letters, digits, . _ ~ - @ $ &).";
+  if(RESERVED.has(s.toLowerCase())) return `"${s}" is a reserved name — pick another.`;
+  if(s in links) return `"${s}" is already taken — pick another.`;
+  return null;
+}
+
+/* ---------- main generate ----------
+   - No token  -> encode the typed URL directly.
+   - Custom slug -> validate, then create /QR/<slug> (intentional alias).
+   - Else dedupe: if this long URL already exists, reuse it (no new entry).
+   - Else allocate lowest free code, shortening only if it's actually shorter.
+*/
+async function generate(){
+  const target = document.getElementById('url').value.trim();
+  if(!target){ setStatus("Enter a URL first.","err"); return; }
+  const slug = document.getElementById('slug').value.trim();
+  go.setAttribute("disabled","");
+  try{
+    if(!cfg.token){
+      render(target); showShort(target,null,false);
+      setStatus(slug ? "Custom slugs need a token — encoded the URL directly." : "QR generated (no token — encoded directly).", slug?"warn":"ok");
+      return;
+    }
+    const { data, sha } = await getDB();
+    const existingCode = Object.keys(data.links).find(k => data.links[k] === target);
+
+    if(slug){
+      const err = validateSlug(slug, data.links);
+      if(err){ setStatus(err,"err"); return; }
+      data.links[slug] = target;
+      await putDB({links:data.links}, sha, `Add short link ${slug}`);
+      finishShort(slug, target);
+      loadLinks();
+    } else if(existingCode){
+      finishShort(existingCode, target, true);
+      setStatus(`Already shortened — reusing /${SITE_BASE.replace(/\//g,'')}/${existingCode}. No new entry created.`,"ok");
+    } else {
+      const code = allocateCode(data.links);
+      const shortUrl = location.origin + SITE_BASE + code;
+      if(shortUrl.length < target.length){
+        data.links[code] = target;
+        await putDB({links:data.links}, sha, `Add short link ${code}`);
+        finishShort(code, target);
+        loadLinks();
+      } else {
+        render(target); showShort(target,null,false);
+        setStatus(`Kept original — a short link (${shortUrl.length} chars) wouldn't beat your URL (${target.length}). Nothing committed.`,"ok");
+      }
+    }
+  }catch(err){
+    render(target); showShort(target,null,false);
+    setStatus("Couldn't shorten ("+(err.message||err)+") — encoded directly instead.","warn");
+  }finally{ go.removeAttribute("disabled"); }
+}
+function finishShort(code, target, reuse){
+  const shortUrl = location.origin + SITE_BASE + code;
+  render(shortUrl); showShort(shortUrl, target, true);
+  if(!reuse) setStatus(`Short link ${code} ready (${shortUrl.length} chars). GitHub Pages may take ~10–60s to make it live.`,"ok");
+}
+function showShort(displayUrl, targetUrl, isShort){
+  outUrl.textContent = displayUrl;
+  outTarget.textContent = isShort ? ("→ redirects to: " + targetUrl) : "";
+  result.classList.add("show");
+}
+
+/* ---------- links table ---------- */
+async function loadLinks(){
+  if(!cfg.token){
+    try{ const res=await fetch(SITE_BASE+DATA_FILE+"?t="+Date.now(),{cache:"no-store"}); if(res.ok){ renderLinks(await res.json()); return; } }catch(e){}
+    linksWrap.innerHTML='<p class="empty">Add a token in settings to view & manage links.</p>'; return;
+  }
+  try{ const { data }=await getDB(); renderLinks(data); }
+  catch(e){ linksWrap.innerHTML='<p class="empty">Could not load: '+(e.message||e)+'</p>'; }
+}
+function renderLinks(db){
+  const entries=Object.entries(db.links||{});
+  if(!entries.length){ linksWrap.innerHTML='<p class="empty">No short links yet.</p>'; return; }
+  const rows=entries.reverse().map(([code,u])=>`
+    <tr>
+      <td><span class="u">${escapeHtml(u)}</span></td>
+      <td><a class="short" href="${SITE_BASE+encodeURIComponent(code)}" target="_blank" rel="noopener">${SITE_BASE}${escapeHtml(code)}</a></td>
+      <td><div class="tact">
+        <button class="ic" data-copy="${location.origin+SITE_BASE+code}">copy</button>
+        <button class="ic dl" data-dl="${escapeHtml(code)}">⬇ QR</button>
+        <button class="ic del" data-del="${escapeHtml(code)}">del</button>
+      </div></td>
+    </tr>`).join("");
+  linksWrap.innerHTML=`<table class="q-table"><thead><tr><th>Target URL</th><th>Shortened URL</th><th></th></tr></thead><tbody>${rows}</tbody></table>`;
+}
+async function deleteCode(code){
+  if(!confirm(`Delete short link "${code}"? Any QR codes pointing to it will stop working.`)) return;
+  try{ setStatus("Deleting "+code+"…");
+    const { data, sha }=await getDB(); delete data.links[code];   // freed — code becomes reusable
+    await putDB({links:data.links}, sha, `Remove short link ${code}`);
+    setStatus("Deleted "+code+".","ok"); loadLinks();
+  }catch(e){ setStatus(e.message||e,"err"); }
+}
+
+/* ---------- downloads (style + color aware) ---------- */
+function hiResCanvas(text){ const geo=geoFor(text); const cv=document.createElement('canvas'); renderCanvas(cv, geo, Math.max(4, Math.floor(900/geo.dim))); return cv; }
+function downloadPNG(text, name){ const a=document.createElement('a'); a.href=hiResCanvas(text).toDataURL('image/png'); a.download=name; a.click(); }
+function downloadSVG(text, name){ const blob=new Blob([renderSvg(geoFor(text))],{type:'image/svg+xml'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=name; a.click(); setTimeout(()=>URL.revokeObjectURL(a.href),2000); }
+
+/* ---------- helpers / wiring ---------- */
+function setStatus(msg,kind){ status.className="status "+(kind||""); status.textContent=msg; }
+function escapeHtml(s){ return String(s).replace(/[&<>"']/g, m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m])); }
+function copyText(t,btn){ navigator.clipboard.writeText(t).then(()=>{ const o=btn.textContent; btn.textContent="copied"; setTimeout(()=>btn.textContent=o,1100); }); }
+
+/* style picker */
+document.getElementById('styleRow').addEventListener('click', e=>{
+  const card=e.target.closest('.style-card'); if(!card) return;
+  setStyle(card.dataset.style); if(lastText) render(lastText);
+});
+/* color sync */
+const hex=document.getElementById('hex'), colorInput=document.getElementById('color');
+function applyColor(v){ v=v.toUpperCase(); localStorage.setItem('qr_color',v); hex.value=v; colorInput.value=v; renderPreviews(); if(lastText) render(lastText); }
+colorInput.addEventListener('input', ()=> applyColor(colorInput.value));
+hex.addEventListener('change', ()=>{ let v=hex.value.trim(); if(!/^#/.test(v)) v="#"+v; if(/^#([0-9a-fA-F]{6})$/.test(v)) applyColor(v); else hex.value=getColor(); });
+
+/* background color sync */
+const hexBg=document.getElementById('hexBg'), colorBgInput=document.getElementById('colorBg');
+function applyBg(v){ v=v.toUpperCase(); localStorage.setItem('qr_bg',v); hexBg.value=v; colorBgInput.value=v; renderPreviews(); if(lastText) render(lastText); }
+colorBgInput.addEventListener('input', ()=> applyBg(colorBgInput.value));
+hexBg.addEventListener('change', ()=>{ let v=hexBg.value.trim(); if(!/^#/.test(v)) v="#"+v; if(/^#([0-9a-fA-F]{6})$/.test(v)) applyBg(v); else hexBg.value=getBg(); });
+
+document.getElementById("go").onclick = generate;
+document.getElementById("saveCfg").onclick = saveCfg;
+document.getElementById('url').addEventListener("keydown", e=>{ if(e.key==="Enter") generate(); });
+document.getElementById('url').addEventListener("input", ()=>{ /* keep previews tied to a sample, not every keystroke */ });
+document.getElementById("copyUrl").onclick = e=> copyText(outUrl.textContent, e.target);
+linksWrap.addEventListener("click", e=>{
+  const c=e.target.closest("[data-copy]"); if(c){ copyText(c.dataset.copy,c); return; }
+  const d=e.target.closest("[data-dl]");  if(d){ downloadPNG(location.origin+SITE_BASE+d.dataset.dl, `qr-${d.dataset.dl}.png`); return; }
+  const x=e.target.closest("[data-del]"); if(x){ deleteCode(x.dataset.del); }
+});
+document.getElementById("dlPng").onclick = ()=>{ if(lastText) downloadPNG(lastText,"qr.png"); };
+document.getElementById("dlSvg").onclick = ()=>{ if(lastText) downloadSVG(lastText,"qr.svg"); };
+
+/* init */
+setStyle(getStyle());
+hex.value = getColor(); colorInput.value = getColor();
+hexBg.value = getBg(); colorBgInput.value = getBg();
+renderPreviews();
+loadCfgUI();
+loadLinks();
+</script>
+</body>
+</html>
