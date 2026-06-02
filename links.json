@@ -1,7 +1,8 @@
 {
-  "next": 3,
+  "next": 4,
   "links": {
     "A": "test",
-    "B": "google.com"
+    "B": "google.com",
+    "C": "https://polamahmud.github.io/9626/"
   }
 }
