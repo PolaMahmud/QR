@@ -1,4 +1,6 @@
 {
-  "next": 1,
-  "links": {}
+  "next": 2,
+  "links": {
+    "A": "test"
+  }
 }
