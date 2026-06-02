@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QR · short links</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;1,9..144,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+<style>
+  :root{
+    --bg:#0e0f0d; --panel:#16171350; --panel-solid:#161713; --line:#2a2c25;
+    --ink:#e9e9e1; --muted:#8d9081; --accent:#cdf564; --accent-dim:#9bb84a;
+    --danger:#ff7a6b; --radius:14px;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    background:var(--bg); color:var(--ink);
+    font-family:"IBM Plex Mono",ui-monospace,monospace;
+    font-size:15px; line-height:1.55;
+    background-image:radial-gradient(var(--line) 1px, transparent 1px);
+    background-size:22px 22px; background-position:-11px -11px;
+    min-height:100vh;
+  }
+  .wrap{max-width:760px; margin:0 auto; padding:48px 22px 90px}
+  header{margin-bottom:34px}
+  .kicker{color:var(--accent-dim); letter-spacing:.32em; text-transform:uppercase; font-size:11px}
+  h1{
+    font-family:"Fraunces",serif; font-weight:400; font-size:clamp(38px,8vw,64px);
+    line-height:.95; margin:.18em 0 .25em; letter-spacing:-.02em;
+  }
+  h1 em{font-style:italic; color:var(--accent)}
+  .sub{color:var(--muted); max-width:54ch}
+  .card{
+    background:linear-gradient(180deg,var(--panel-solid),#121309);
+    border:1px solid var(--line); border-radius:var(--radius);
+    padding:22px; margin-top:22px;
+  }
+  .card h2{
+    font-family:"Fraunces",serif; font-weight:500; font-style:italic;
+    font-size:20px; margin:0 0 14px;
+  }
+  label{display:block; font-size:12px; color:var(--muted); margin:14px 0 6px; letter-spacing:.04em}
+  label:first-of-type{margin-top:0}
+  input[type=text],input[type=url],input[type=password]{
+    width:100%; background:#0c0d0a; border:1px solid var(--line); color:var(--ink);
+    font-family:inherit; font-size:15px; padding:12px 13px; border-radius:10px; outline:none;
+  }
+  input:focus{border-color:var(--accent-dim); box-shadow:0 0 0 3px #cdf5641a}
+  .row{display:flex; gap:12px; flex-wrap:wrap}
+  .row > *{flex:1; min-width:140px}
+  input[type=color]{
+    width:46px; height:46px; padding:0; border:1px solid var(--line);
+    border-radius:10px; background:#0c0d0a; cursor:pointer; flex:0 0 auto;
+  }
+  .toggle{display:flex; gap:0; border:1px solid var(--line); border-radius:10px; overflow:hidden; margin-top:6px}
+  .toggle button{
+    flex:1; background:transparent; color:var(--muted); border:0; padding:11px 8px;
+    font-family:inherit; font-size:13px; cursor:pointer; transition:.15s;
+  }
+  .toggle button.on{background:var(--accent); color:#11130a; font-weight:600}
+  .btn{
+    appearance:none; border:1px solid var(--accent); background:var(--accent); color:#11130a;
+    font-family:inherit; font-weight:600; font-size:15px; padding:13px 18px; border-radius:10px;
+    cursor:pointer; width:100%; margin-top:18px; transition:.15s;
+  }
+  .btn:hover{filter:brightness(1.08)}
+  .btn:disabled{opacity:.45; cursor:not-allowed}
+  .btn.ghost{background:transparent; color:var(--ink); border-color:var(--line)}
+  .btn.ghost:hover{border-color:var(--accent-dim)}
+  .btn.small{width:auto; padding:8px 12px; font-size:13px; margin:0}
+  details.cfg{margin-top:22px; border:1px dashed var(--line); border-radius:var(--radius); padding:0 18px}
+  details.cfg summary{
+    cursor:pointer; padding:15px 0; color:var(--muted); font-size:13px; letter-spacing:.04em;
+    list-style:none; display:flex; justify-content:space-between; align-items:center;
+  }
+  details.cfg summary::-webkit-details-marker{display:none}
+  details.cfg[open] summary{border-bottom:1px solid var(--line); margin-bottom:14px}
+  details.cfg .body{padding-bottom:18px}
+  .hint{font-size:12px; color:var(--muted); margin-top:6px}
+  .hint a{color:var(--accent-dim)}
+  #result{display:none; margin-top:22px; text-align:center}
+  #result.show{display:block}
+  .qrbox{display:inline-block; padding:16px; background:#fff; border-radius:12px; margin:4px auto 18px}
+  .qrbox canvas{display:block; width:240px; height:240px; image-rendering:pixelated}
+  .shorturl{
+    display:flex; align-items:center; gap:10px; justify-content:center; flex-wrap:wrap;
+    background:#0c0d0a; border:1px solid var(--line); border-radius:10px; padding:12px 14px; margin-bottom:8px;
+  }
+  .shorturl code{color:var(--accent); font-size:15px; word-break:break-all}
+  .meta{font-size:12px; color:var(--muted); word-break:break-all}
+  .downloads{display:flex; gap:10px; justify-content:center; margin-top:14px; flex-wrap:wrap}
+  .status{font-size:13px; margin-top:14px; min-height:1.2em}
+  .status.err{color:var(--danger)} .status.ok{color:var(--accent)}
+  table{width:100%; border-collapse:collapse; margin-top:10px; font-size:13px}
+  th,td{text-align:left; padding:9px 8px; border-bottom:1px solid var(--line); vertical-align:top}
+  th{color:var(--muted); font-weight:500; font-size:11px; letter-spacing:.06em; text-transform:uppercase}
+  td .c{color:var(--accent); font-weight:600}
+  td .u{color:var(--muted); word-break:break-all; display:inline-block; max-width:42ch}
+  .tact{display:flex; gap:6px}
+  .ic{background:transparent; border:1px solid var(--line); color:var(--muted); border-radius:7px; cursor:pointer; padding:5px 8px; font-family:inherit; font-size:12px}
+  .ic:hover{border-color:var(--accent-dim); color:var(--ink)}
+  .ic.del:hover{border-color:var(--danger); color:var(--danger)}
+  .empty{color:var(--muted); font-size:13px; padding:14px 0}
+  footer{margin-top:40px; color:var(--muted); font-size:12px; text-align:center}
+  footer code{color:var(--accent-dim)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="kicker">github pages · base-66</div>
+    <h1>QR &amp; <em>short links</em></h1>
+    <p class="sub">Generate a QR code for any URL. Shorten long links into compact <code>/QR/&lt;code&gt;</code> redirects so the QR stays low-density and easy to scan.</p>
+  </header>
+
+  <div class="card">
+    <h2>Generate</h2>
+    <label for="url">URL to encode</label>
+    <input id="url" type="url" placeholder="https://example.com/some/very/long/path?with=params" autocomplete="off">
+
+    <div class="row" style="margin-top:14px; align-items:flex-end">
+      <div>
+        <label for="color">QR color</label>
+        <div style="display:flex; gap:10px; align-items:center">
+          <input id="color" type="color" value="#0e0f0d">
+          <span class="hint" style="margin:0">dark modules on white</span>
+        </div>
+      </div>
+    </div>
+
+    <label>Mode</label>
+    <div class="toggle" id="mode">
+      <button type="button" data-mode="short" class="on">Shorten &amp; encode</button>
+      <button type="button" data-mode="direct">Encode URL directly</button>
+    </div>
+    <p class="hint" id="modeHint">Creates a new <code>/QR/&lt;code&gt;</code> entry, commits it to your repo, then encodes the short link.</p>
+
+    <button class="btn" id="go">Generate QR code</button>
+    <div class="status" id="status"></div>
+
+    <div id="result">
+      <div class="qrbox"><canvas id="canvas"></canvas></div>
+      <div class="shorturl">
+        <code id="outUrl"></code>
+        <button class="ic" id="copyUrl">copy</button>
+      </div>
+      <div class="meta" id="outTarget"></div>
+      <div class="downloads">
+        <button class="btn ghost small" id="dlPng">Download PNG</button>
+        <button class="btn ghost small" id="dlSvg">Download SVG</button>
+      </div>
+    </div>
+  </div>
+
+  <details class="cfg">
+    <summary><span>⚙ Repository &amp; token settings</span><span id="tokState">not set</span></summary>
+    <div class="body">
+      <p class="hint">Writing a short link commits to your repo, which needs a GitHub token. Use a <b>fine-grained personal access token</b> scoped to <b>only this repo</b> with <b>Contents: Read &amp; write</b>. It is stored only in this browser (localStorage) and never committed. <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">Create one →</a></p>
+      <div class="row">
+        <div><label for="owner">Owner</label><input id="owner" type="text" placeholder="polamahmud"></div>
+        <div><label for="repo">Repo</label><input id="repo" type="text" placeholder="QR"></div>
+        <div><label for="branch">Branch</label><input id="branch" type="text" placeholder="main"></div>
+      </div>
+      <label for="token">Token (ghp_… / github_pat_…)</label>
+      <input id="token" type="password" placeholder="paste token — stays in your browser" autocomplete="off">
+      <button class="btn ghost" id="saveCfg">Save settings</button>
+    </div>
+  </details>
+
+  <div class="card">
+    <h2>Existing short links</h2>
+    <div id="linksWrap"><p class="empty">Loading…</p></div>
+  </div>
+
+  <footer>
+    base-66 alphabet · <code>A–Z a–z 0–9 @ ~ $ &amp;</code> · bijective (A, B … &amp;, AA, AB …)<br>
+    static front-end · data lives in <code>links.json</code> · redirects via <code>404.html</code>
+  </footer>
+</div>
+
+<script>
+/* ============================================================
+   CONFIG — change these if your repo/path differ
+   ============================================================ */
+const DEFAULTS = { owner: "polamahmud", repo: "QR", branch: "main" };
+const SITE_BASE = "/QR/";          // path prefix where the site is served
+const DATA_FILE = "links.json";    // the "database" file in the repo
+const ALPHABET  = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@~$&";
+const BASE = ALPHABET.length;      // 66
+
+/* ---------- bijective base-66 (1->A, 66->&, 67->AA ...) ---------- */
+function encodeIndex(n){            // n is a positive integer (>=1)
+  let s = "";
+  while(n > 0){
+    n -= 1;
+    s = ALPHABET[n % BASE] + s;
+    n = Math.floor(n / BASE);
+  }
+  return s;
+}
+
+/* ---------- config persistence ---------- */
+const cfg = {
+  get owner(){ return localStorage.getItem("qr_owner")  || DEFAULTS.owner; },
+  get repo(){  return localStorage.getItem("qr_repo")   || DEFAULTS.repo;  },
+  get branch(){return localStorage.getItem("qr_branch") || DEFAULTS.branch;},
+  get token(){ return localStorage.getItem("qr_token")  || ""; }
+};
+function loadCfgUI(){
+  owner.value = cfg.owner; repo.value = cfg.repo; branch.value = cfg.branch; token.value = cfg.token;
+  tokState.textContent = cfg.token ? "token set ✓" : "not set";
+}
+function saveCfg(){
+  localStorage.setItem("qr_owner",  owner.value.trim() || DEFAULTS.owner);
+  localStorage.setItem("qr_repo",   repo.value.trim()  || DEFAULTS.repo);
+  localStorage.setItem("qr_branch", branch.value.trim()|| DEFAULTS.branch);
+  localStorage.setItem("qr_token",  token.value.trim());
+  loadCfgUI();
+  setStatus("Settings saved.", "ok");
+  loadLinks();
+}
+
+/* ---------- GitHub contents API ---------- */
+function ghHeaders(){
+  return { "Accept":"application/vnd.github+json", "Authorization":"Bearer "+cfg.token,
+           "X-GitHub-Api-Version":"2022-11-28" };
+}
+function b64encode(str){ return btoa(unescape(encodeURIComponent(str))); }
+function b64decode(str){ return decodeURIComponent(escape(atob(str.replace(/\n/g,"")))); }
+
+async function getDB(){
+  // Returns {data, sha}. sha=null if file does not exist yet.
+  const url = `https://api.github.com/repos/${cfg.owner}/${cfg.repo}/contents/${DATA_FILE}?ref=${cfg.branch}`;
+  const res = await fetch(url, { headers: ghHeaders(), cache:"no-store" });
+  if(res.status === 404) return { data:{ next:1, links:{} }, sha:null };
+  if(!res.ok) throw new Error("GitHub read failed ("+res.status+"). Check token & repo settings.");
+  const j = await res.json();
+  let parsed; try{ parsed = JSON.parse(b64decode(j.content)); }catch(e){ parsed = { next:1, links:{} }; }
+  if(!parsed.links) parsed.links = {};
+  if(!parsed.next)  parsed.next  = 1;
+  return { data: parsed, sha: j.sha };
+}
+async function putDB(data, sha, message){
+  const url = `https://api.github.com/repos/${cfg.owner}/${cfg.repo}/contents/${DATA_FILE}`;
+  const body = { message, content: b64encode(JSON.stringify(data, null, 2)), branch: cfg.branch };
+  if(sha) body.sha = sha;
+  const res = await fetch(url, { method:"PUT", headers: ghHeaders(), body: JSON.stringify(body) });
+  if(!res.ok){ const t = await res.text(); throw new Error("GitHub write failed ("+res.status+"). "+t.slice(0,140)); }
+  return res.json();
+}
+
+/* ---------- QR rendering (custom, so color works + SVG export) ---------- */
+let lastQR = null;
+function buildQR(text){
+  const qr = qrcode(0, "M");   // type 0 = auto-size to smallest version that fits
+  qr.addData(text); qr.make();
+  return qr;
+}
+function drawCanvas(qr, color){
+  const count = qr.getModuleCount(), margin = 4, target = 480;
+  const cell = Math.max(2, Math.floor(target / (count + margin*2)));
+  const dim = cell * (count + margin*2);
+  const cv = document.getElementById("canvas");
+  cv.width = dim; cv.height = dim;
+  const ctx = cv.getContext("2d");
+  ctx.fillStyle = "#ffffff"; ctx.fillRect(0,0,dim,dim);
+  ctx.fillStyle = color;
+  for(let r=0;r<count;r++) for(let c=0;c<count;c++)
+    if(qr.isDark(r,c)) ctx.fillRect((c+margin)*cell,(r+margin)*cell,cell,cell);
+}
+function qrSvg(qr, color){
+  const count = qr.getModuleCount(), margin = 4, dim = count + margin*2;
+  let rects = "";
+  for(let r=0;r<count;r++) for(let c=0;c<count;c++)
+    if(qr.isDark(r,c)) rects += `<rect x="${c+margin}" y="${r+margin}" width="1" height="1"/>`;
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${dim} ${dim}" shape-rendering="crispEdges">`
+       + `<rect width="${dim}" height="${dim}" fill="#ffffff"/><g fill="${color}">${rects}</g></svg>`;
+}
+
+/* ---------- main generate ---------- */
+let currentMode = "short";
+async function generate(){
+  const raw = url.value.trim();
+  if(!raw){ setStatus("Enter a URL first.", "err"); return; }
+  let target = raw;
+  go.disabled = true;
+
+  try{
+    let encodeText = target;
+    if(currentMode === "short"){
+      if(!cfg.token){ setStatus("No token set — open settings below to add one, or switch to direct mode.", "err"); go.disabled=false; return; }
+      setStatus("Creating short link & committing to repo…");
+      const { data, sha } = await getDB();
+      const code = encodeIndex(data.next);
+      data.links[code] = target;
+      data.next += 1;
+      await putDB(data, sha, `Add short link ${code}`);
+      const shortUrl = location.origin + SITE_BASE + code;
+      encodeText = shortUrl;
+      showResult(buildQR(shortUrl), shortUrl, target, true);
+      setStatus(`Short link ${code} created. GitHub Pages may take ~10–60s to make it live.`, "ok");
+      loadLinks();
+    } else {
+      showResult(buildQR(target), target, null, false);
+      setStatus("QR generated.", "ok");
+    }
+  }catch(err){
+    setStatus(err.message || String(err), "err");
+  }finally{
+    go.disabled = false;
+  }
+}
+
+function showResult(qr, displayUrl, targetUrl, isShort){
+  lastQR = qr;
+  drawCanvas(qr, color.value);
+  outUrl.textContent = displayUrl;
+  outTarget.textContent = isShort ? ("→ redirects to: " + targetUrl) : "";
+  result.classList.add("show");
+}
+
+/* ---------- links table ---------- */
+async function loadLinks(){
+  if(!cfg.token){
+    // fall back to the published static file (may lag behind latest commit)
+    try{
+      const res = await fetch(SITE_BASE + DATA_FILE + "?t=" + Date.now(), {cache:"no-store"});
+      if(res.ok){ renderLinks(await res.json()); return; }
+    }catch(e){}
+    linksWrap.innerHTML = '<p class="empty">Add a token in settings to view & manage links.</p>';
+    return;
+  }
+  try{
+    const { data } = await getDB();
+    renderLinks(data);
+  }catch(e){
+    linksWrap.innerHTML = '<p class="empty">Could not load: '+ (e.message||e) +'</p>';
+  }
+}
+function renderLinks(db){
+  const entries = Object.entries(db.links || {});
+  if(!entries.length){ linksWrap.innerHTML = '<p class="empty">No short links yet.</p>'; return; }
+  let rows = entries.reverse().map(([code,u])=>`
+    <tr>
+      <td><span class="c">${code}</span></td>
+      <td><span class="u">${escapeHtml(u)}</span></td>
+      <td><div class="tact">
+        <button class="ic" data-copy="${location.origin+SITE_BASE+code}">copy</button>
+        <a class="ic" href="${SITE_BASE+code}" target="_blank" rel="noopener">open</a>
+        <button class="ic del" data-del="${code}">del</button>
+      </div></td>
+    </tr>`).join("");
+  linksWrap.innerHTML = `<table><thead><tr><th>code</th><th>target</th><th></th></tr></thead><tbody>${rows}</tbody></table>`;
+}
+async function deleteCode(code){
+  if(!confirm(`Delete short link "${code}"? Any QR codes pointing to it will stop working.`)) return;
+  try{
+    setStatus("Deleting "+code+"…");
+    const { data, sha } = await getDB();
+    delete data.links[code];          // note: we keep "next" as-is so codes never get reused
+    await putDB(data, sha, `Remove short link ${code}`);
+    setStatus("Deleted "+code+".", "ok");
+    loadLinks();
+  }catch(e){ setStatus(e.message||e, "err"); }
+}
+
+/* ---------- helpers / wiring ---------- */
+function setStatus(msg, kind){ status.className = "status " + (kind||""); status.textContent = msg; }
+function escapeHtml(s){ return s.replace(/[&<>"']/g, m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m])); }
+function copyText(t, btn){ navigator.clipboard.writeText(t).then(()=>{ const o=btn.textContent; btn.textContent="copied"; setTimeout(()=>btn.textContent=o,1100); }); }
+
+document.getElementById("go").onclick = generate;
+document.getElementById("saveCfg").onclick = saveCfg;
+url.addEventListener("keydown", e=>{ if(e.key==="Enter") generate(); });
+color.addEventListener("input", ()=>{ if(lastQR) drawCanvas(lastQR, color.value); });
+
+document.getElementById("mode").addEventListener("click", e=>{
+  const b = e.target.closest("button[data-mode]"); if(!b) return;
+  currentMode = b.dataset.mode;
+  [...mode.children].forEach(x=>x.classList.toggle("on", x===b));
+  modeHint.innerHTML = currentMode==="short"
+    ? 'Creates a new <code>/QR/&lt;code&gt;</code> entry, commits it to your repo, then encodes the short link.'
+    : 'Encodes the URL exactly as typed — no short link is created, no token needed.';
+});
+
+document.getElementById("copyUrl").onclick = e=> copyText(outUrl.textContent, e.target);
+linksWrap.addEventListener("click", e=>{
+  const c = e.target.closest("[data-copy]"); if(c){ copyText(c.dataset.copy, c); return; }
+  const d = e.target.closest("[data-del]");  if(d){ deleteCode(d.dataset.del); }
+});
+
+document.getElementById("dlPng").onclick = ()=>{
+  const a = document.createElement("a");
+  a.href = document.getElementById("canvas").toDataURL("image/png");
+  a.download = "qr.png"; a.click();
+};
+document.getElementById("dlSvg").onclick = ()=>{
+  if(!lastQR) return;
+  const blob = new Blob([qrSvg(lastQR, color.value)], {type:"image/svg+xml"});
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob); a.download = "qr.svg"; a.click();
+  setTimeout(()=>URL.revokeObjectURL(a.href), 2000);
+};
+
+loadCfgUI();
+loadLinks();
+</script>
+</body>
+</html>
