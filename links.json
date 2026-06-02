@@ -1,6 +1,7 @@
 {
-  "next": 2,
+  "next": 3,
   "links": {
-    "A": "test"
+    "A": "test",
+    "B": "google.com"
   }
 }
